@@ -8,11 +8,13 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
 /**
  * Class to calculate when to go home.
  */
 public class GoHome {
+    private static final Logger LOGGER = Logger.getLogger(GoHome.class.getName());
 
     private static final String TIME_END = "time.end";
     private static final String TIME_INPUT_FORMAT = "time.input.format";
@@ -31,11 +33,13 @@ public class GoHome {
      */
     public static void main(String[] args) throws IOException {
 
+        LOGGER.info("Program start");
         init();
 
         LocalTime now = LocalTime.now();
         timeTo(now);
 
+        LOGGER.info("Program end");
     }
 
     private static void init() throws IOException {
