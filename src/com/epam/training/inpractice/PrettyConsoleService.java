@@ -1,7 +1,6 @@
 package com.epam.training.inpractice;
 
 public class PrettyConsoleService implements Printer {
-    private static final String MESSAGE = "Kedves Péter, Now: %s, End: %s, time to go home in mins: %d.%n";
 
     /*
      * (non-Javadoc)
@@ -9,8 +8,8 @@ public class PrettyConsoleService implements Printer {
      * @see com.epam.training.inpractice.Printer#print(java.lang.Object)
      */
     @Override
-    public void print(Object... args) {
-        System.out.printf(MESSAGE, args);
+    public void print(String msg, Object... args) {
+        System.out.printf(msg, args);
     }
 
 }

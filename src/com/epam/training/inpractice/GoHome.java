@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
 
 /**
  * Class to calculate when to go home.
@@ -14,9 +17,11 @@ public class GoHome {
     private static final String TIME_END = "time.end";
     private static final String TIME_INPUT_FORMAT = "time.input.format";
     private static final String TIME_OUTPUT_FORMAT = "time.output.format";
+    private static final String LANGUAGE = "language";
 
-    static Printer printer = new PrettyConsoleService();
-    static Properties props;
+    private static Printer printer = new PrettyConsoleService();
+    private static Properties props;
+    private static ResourceBundle bundle;
 
     /**
      * Main method
@@ -25,13 +30,20 @@ public class GoHome {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        System.out.println(System.getProperty("name"));
 
-        props = new Properties();
-        props.load(GoHome.class.getResourceAsStream("/gohome.properties"));
+        init();
+
         LocalTime now = LocalTime.now();
         timeTo(now);
 
+    }
+
+    private static void init() throws IOException {
+        props = new Properties();
+        props.load(GoHome.class.getResourceAsStream("/gohome.properties"));
+
+        Locale locale = new Locale(props.getProperty(LANGUAGE));
+        bundle = PropertyResourceBundle.getBundle("message", locale);
     }
 
     private static void timeTo(LocalTime now) {
@@ -49,7 +61,7 @@ public class GoHome {
         DateTimeFormatter 
             outFormat = DateTimeFormatter.ofPattern(props.getProperty(TIME_OUTPUT_FORMAT));
         // @formatter:on
-        printer.print(now.format(outFormat), end.format(outFormat), between);
+        printer.print(bundle.getString("message"), now.format(outFormat), end.format(outFormat), between);
 
     }
 
